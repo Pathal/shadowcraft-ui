@@ -9,6 +9,7 @@ class ShadowcraftOptions
     'armor_debuff',
     'physical_vulnerability_debuff',
     'spell_damage_debuff',
+    'spell_haste_buff',
     'agi_flask_mop',
     'food_300_agi'
   ]
@@ -111,6 +112,7 @@ class ShadowcraftOptions
       race: {type: "select", options: ["Human", "Dwarf", "Orc", "Blood Elf", "Gnome", "Worgen", "Troll", "Night Elf", "Undead", "Goblin", "Pandaren"], name: "Race", 'default': "Human"}
       duration: {type: "input", name: "Fight Duration", 'default': 360, datatype: 'integer', min: 15, max: 1200}
       response_time: {type: "input", name: "Response Time", 'default': 0.5, datatype: 'float', min: 0.1, max: 5}
+      gcd_gap: {type: "input", name: "Force gap between GCD uses (Combat Only right now)", 'default': 0.05, datatype: 'float', min: 0.0, max: .5}
       time_in_execute_range: {type: "input", name: "Time in Execute Range", desc: "Only working with Assassination", 'default': 0.35, datatype: 'float', min: 0, max: 1}
       lethal_poison: {name: "Lethal Poison", type: 'select', options: {'dp': 'Deadly Poison', 'wp': 'Wound Poison'}, 'default': 'dp'}
       utility_poison: {name: "Utility Poison", type: 'select', options: {'lp': 'Leeching Poison', 'n': 'Other/None'}, 'default': 'lp'}
@@ -144,6 +146,7 @@ class ShadowcraftOptions
       melee_haste_buff: {name: "10% Haste", desc: "Unleashed Rage/Unholy Aura/Swiftblade's Cunning", 'default': true, datatype: 'bool'},
       attack_power_buff: {name: "10% Attack Power", desc: "Horn of Winter/Trueshot Aura/Battle Shout", 'default': true, datatype: 'bool'},
       mastery_buff: {name: "Mastery", desc: "Blessing of Might/Grace of Air", 'default': true, datatype: 'bool'}
+      spell_haste_buff: {name: "Spell Haste", desc: "Moonkin Aura/Shadowform/Elemental Oath", 'default': true, datatype: 'bool'}
     })
 
     @setup("#settings #targetDebuffs", "buffs", {

@@ -7,6 +7,8 @@ class ShadowcraftGear
   CHAPTER_3_ACHIEVEMENTS = [7535]
   REFORGE_FACTOR = 0.4
   DEFAULT_BOSS_DODGE = 7.5
+  DEFAULT_YELLOW_HIT = 7.5
+  DEFAULT_WHITE_PENALTY = 19.0
 
   FACETS = {
     ITEM: 1
@@ -306,6 +308,7 @@ class ShadowcraftGear
     data = Shadowcraft.Data
     ItemLookup = Shadowcraft.ServerData.ITEM_LOOKUP
     expertise = @statSum.expertise_rating
+    if data.options.general.pvp then DEFAULT_BOSS_DODGE = 3.0 else DEFAULT_BOSS_DODGE = 7.5
     boss_dodge = DEFAULT_BOSS_DODGE
     if (!hand? or hand == "main") and data.gear[15] and data.gear[15].item_id
       expertise += racialExpertiseBonus(ItemLookup[data.gear[15].item_id])
@@ -314,9 +317,10 @@ class ShadowcraftGear
     return DEFAULT_BOSS_DODGE - expertise / Shadowcraft._R("expertise_rating")
 
   getHitEP = ->
-    yellowHitCap = Shadowcraft._R("hit_rating") * 7.5 - racialHitBonus("hit_rating")
-    spellHitCap = Shadowcraft._R("spell_hit")  * 7.5 - racialHitBonus("spell_hit")
-    whiteHitCap = Shadowcraft._R("hit_rating") * 26.5 - racialHitBonus("hit_rating")
+    if data.options.general.pvp then DEFAULT_YELLOW_HIT = 3.0 else DEFAULT_YELLOW_HIT = 7.5
+    yellowHitCap = Shadowcraft._R("hit_rating") * DEFAULT_YELLOW_HIT - racialHitBonus("hit_rating")
+    spellHitCap = Shadowcraft._R("spell_hit")  * DEFAULT_YELLOW_HIT - racialHitBonus("spell_hit")
+    whiteHitCap = Shadowcraft._R("hit_rating") * (DEFAULT_YELLOW_HIT + DEFAULT_WHITE_PENALTY) - racialHitBonus("hit_rating")
     exist = Shadowcraft.Gear.getStat("hit_rating")
     if exist < yellowHitCap
       Weights.yellow_hit
@@ -330,12 +334,13 @@ class ShadowcraftGear
   getCaps: ->
     data = Shadowcraft.Data
     ItemLookup = Shadowcraft.ServerData.ITEM_LOOKUP
-
+    if data.options.general.pvp then DEFAULT_BOSS_DODGE = 3.0 else DEFAULT_BOSS_DODGE = 7.5
     exp_base = Shadowcraft._R("expertise_rating") * DEFAULT_BOSS_DODGE
     caps =
-      yellowHitCap: Shadowcraft._R("hit_rating") * 7.5 - racialHitBonus("hit_rating")
-      spellHitCap: Shadowcraft._R("hit_rating")  * 7.5 - racialHitBonus("hit_rating")
-      whiteHitCap: Shadowcraft._R("hit_rating") * 26.5 - racialHitBonus("hit_rating")
+      if data.options.general.pvp then DEFAULT_YELLOW_HIT = 3.0 else DEFAULT_YELLOW_HIT = 7.5
+      yellowHitCap: Shadowcraft._R("hit_rating") * DEFAULT_YELLOW_HIT - racialHitBonus("hit_rating")
+      spellHitCap: Shadowcraft._R("hit_rating")  * DEFAULT_YELLOW_HIT - racialHitBonus("hit_rating")
+      whiteHitCap: Shadowcraft._R("hit_rating") * (DEFAULT_YELLOW_HIT + DEFAULT_WHITE_PENALTY) - racialHitBonus("hit_rating")
       mh_exp: 2550
       oh_exp: 2550
     if data.gear[15]
@@ -349,13 +354,13 @@ class ShadowcraftGear
     switch cap
       when "yellow"
         r = Shadowcraft._R("hit_rating")
-        hitCap = r * 7.5 - racialHitBonus("hit_rating")
+        hitCap = r * DEFAULT_YELLOW_HIT - racialHitBonus("hit_rating")
       when "spell"
         r = Shadowcraft._R("hit_rating")
-        hitCap = r * 7.5 - racialHitBonus("hit_rating")
+        hitCap = r * DEFAULT_YELLOW_HIT - racialHitBonus("hit_rating")
       when "white"
         r = Shadowcraft._R("hit_rating")
-        hitCap = r * 26.5 - racialHitBonus("hit_rating")
+        hitCap = r * (DEFAULT_YELLOW_HIT + DEFAULT_WHITE_PENALTY) - racialHitBonus("hit_rating")
     if r? and hitCap?
       hasHit = @statSum.hit_rating || 0
       if hasHit < hitCap or cap == "white"
@@ -382,6 +387,7 @@ class ShadowcraftGear
 
     switch(stat)
       when "expertise_rating"
+        if data.options.general.pvp then DEFAULT_BOSS_DODGE = 3.0 else DEFAULT_BOSS_DODGE = 7.5
         boss_dodge = DEFAULT_BOSS_DODGE
         mhCap = Shadowcraft._R("expertise_rating") * boss_dodge
         ohCap = mhCap
@@ -402,9 +408,9 @@ class ShadowcraftGear
 
         return total * neg
       when "hit_rating"
-        yellowHitCap = Shadowcraft._R("hit_rating") * 7.5 - racialHitBonus("hit_rating")
-        spellHitCap = Shadowcraft._R("hit_rating")  * 7.5 - racialHitBonus("hit_rating")
-        whiteHitCap = Shadowcraft._R("hit_rating") * 26.5 - racialHitBonus("hit_rating")
+        yellowHitCap = Shadowcraft._R("hit_rating") * DEFAULT_YELLOW_HIT - racialHitBonus("hit_rating")
+        spellHitCap = Shadowcraft._R("hit_rating")  * DEFAULT_YELLOW_HIT - racialHitBonus("hit_rating")
+        whiteHitCap = Shadowcraft._R("hit_rating") * (DEFAULT_YELLOW_HIT + DEFAULT_WHITE_PENALTY) - racialHitBonus("hit_rating")
 
         total = 0
         remaining = num

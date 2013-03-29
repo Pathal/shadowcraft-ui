@@ -77,6 +77,7 @@ class ShadowcraftBackend
         utl_poison: data.options.general.utility_poison if data.options.general.utility_poison != 'n'
         duration: data.options.general.duration
         response_time: data.options.general.response_time
+        latency: data.options.general.gcd_gap
         time_in_execute_range: data.options.general.time_in_execute_range
         stormlash: data.options.general.stormlash
         pvp: data.options.general.pvp
