@@ -147,6 +147,7 @@ class ShadowcraftOptions
       attack_power_buff: {name: "10% Attack Power", desc: "Horn of Winter/Trueshot Aura/Battle Shout", 'default': true, datatype: 'bool'},
       mastery_buff: {name: "Mastery", desc: "Blessing of Might/Grace of Air", 'default': true, datatype: 'bool'}
       spell_haste_buff: {name: "Spell Haste", desc: "Moonkin Aura/Shadowform/Elemental Oath", 'default': true, datatype: 'bool'}
+      advanced_params: {name: "Advanced Parameters", desc: "Advanced settings and modifiers. WARNING: Don't touch if you don't know what it does.", 'default': '', datatype: 'string'}
     })
 
     @setup("#settings #targetDebuffs", "buffs", {
